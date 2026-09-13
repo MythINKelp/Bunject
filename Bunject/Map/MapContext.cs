@@ -174,24 +174,19 @@ namespace Bunject.Map
     {
       var results = new List<Bunburrows.Bunburrow>();
       var next = bunburrow;
-      while (true)
+      // Cap burrows in a direction to 3 to minimize lag
+      for (var i = 0; i < 3; i++)
       {
         results.Add(next);
         var nextLevelsList = bunburrow.GetModBunburrow().GetLevels().AdjacentBunburrows[step];
 
         var maybeNext = GetNextBunburrow(next, step, burrowLookup);
         if (!maybeNext.HasValue)
-          return results;
+          break;
 
         next = maybeNext.Value;
-
-        if (results.Contains(next))
-        {
-          // include the repeat anyways just to cap it off
-          results.Add(next);
-          return results;
-        }
       }
+      return results;
     }
 
     private static Vector2Int CreatePixelOffset(int centerX, int centerY)

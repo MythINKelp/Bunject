@@ -164,7 +164,7 @@ namespace Bunject.Map
     {
       var nextLevelsList = bunburrow.GetModBunburrow().GetLevels().AdjacentBunburrows[step];
 
-      if (burrowLookup.ContainsKey(nextLevelsList))
+      if ((nextLevelsList != null) && (burrowLookup.ContainsKey(nextLevelsList)))
         return burrowLookup[nextLevelsList];
 
       return null;

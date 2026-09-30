@@ -158,6 +158,7 @@ namespace Bunject.NewYardSystem
         progression.HandleOphelinePortableComputerUnlock();
         progression.HandleMapUnlock();
         progression.HandleSeenBootAnimation();
+        progression.HandleHerbeDialoguePlayed("HerbeFoundInTemple"); // Prevents Hèrbe from going missing
 
         if (CurrentCustomWorld.TeleportAnywhereUnlocked)
           progression.HandleTeleportAnywhereUnlock();

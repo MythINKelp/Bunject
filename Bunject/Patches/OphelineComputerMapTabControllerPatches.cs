@@ -51,16 +51,15 @@ namespace Bunject.Patches.OphelineComputerMapTabControllerPatches
         firstTime = false;
         var traverse = Traverse.Create(__instance);
         var mapRectTransform = traverse.Field<RectTransform>("mapRectTransform").Value;
-        var currentlyHoveredLevel = traverse.Field<LevelIdentity?>("currentlyHoveredLevel").Value;
 
         // Determine how far away the map is from the center burrow
         var mapScreenOffset = new Vector2(mapRectTransform.rect.xMin, mapRectTransform.rect.yMin);
         var selectorPosition = -mapRectTransform.anchoredPosition - mapScreenOffset - ComputerMapBuilder.InitialOffset;
         var selectedBurrowCoords = new Vector2Int((int)(selectorPosition.x / 75f), (int)(selectorPosition.y / 45f));
-        if ((selectedBurrowCoords != new Vector2(1, 1)) && currentlyHoveredLevel.HasValue)
+        if (!selectedBurrowCoords.Equals(new Vector2Int(1, 1)) && BunburrowExtension.TryGetBunburrowFromMapIndex(selectedBurrowCoords, out var newBurrow))
         {
           // Seamlessly transition from one burrow to the next
-          var diffFromCenterCoords = selectedBurrowCoords - new Vector2(1, 1);
+          var diffFromCenterCoords = selectedBurrowCoords - new Vector2Int(1, 1);
           traverse.Field<RectTransform>("mapRectTransform").Value.anchoredPosition += new Vector2(
             diffFromCenterCoords.x * ComputerMapBuilder.LevelPixelSize.x, 
             diffFromCenterCoords.y * ComputerMapBuilder.LevelPixelSize.y
@@ -69,7 +68,6 @@ namespace Bunject.Patches.OphelineComputerMapTabControllerPatches
           AccessTools.Method(typeof(OphelineComputerMapTabController), "UpdateSelector").Invoke(__instance, null);
 
           // Force redraw map
-          var newBurrow = currentlyHoveredLevel.Value.Bunburrow;
           MapContext.Instance?.Dispose();
           new MapContext(newBurrow);
           AccessTools.Method(typeof(OphelineComputerMapTabController), "DrawMap").Invoke(__instance, null);

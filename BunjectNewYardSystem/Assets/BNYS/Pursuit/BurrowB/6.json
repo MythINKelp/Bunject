@@ -1,6 +1,6 @@
 {
   "Name": "Railyard",
-  "Style": "Hell",
+  "Style": "ForgottenHell",
   "IsTemple": false,
   "IsHell": true,
   "Teleport": [ 12, 5 ],

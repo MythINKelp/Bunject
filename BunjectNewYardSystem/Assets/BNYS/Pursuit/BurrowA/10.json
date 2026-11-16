@@ -113,9 +113,9 @@
           "Content": "Weird."
         }
       ],
-      "RequiredCaptures": 15,
-      "RequiredBabies": 21,
-      "RequiredHomeCaptures": 15,
+      "RequiredCaptures": 16,
+      "RequiredBabies": 23,
+      "RequiredHomeCaptures": 16,
       "ShouldOnlyPlayOnce": true
     },
     {
@@ -154,9 +154,9 @@
           "Content": "Meanie"
         }
       ],
-      "RequiredCaptures": 15,
-      "RequiredBabies": 21,
-      "RequiredHomeCaptures": 15,
+      "RequiredCaptures": 16,
+      "RequiredBabies": 23,
+      "RequiredHomeCaptures": 16,
       "ShouldOnlyPlayOnce": false
     },
     {

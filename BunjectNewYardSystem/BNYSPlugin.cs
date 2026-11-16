@@ -158,6 +158,7 @@ namespace Bunject.NewYardSystem
         progression.HandleOphelinePortableComputerUnlock();
         progression.HandleMapUnlock();
         progression.HandleSeenBootAnimation();
+        progression.HandleHerbeDialoguePlayed("HerbeFoundInTemple"); // Prevents Hèrbe from going missing
 
         if (CurrentCustomWorld.TeleportAnywhereUnlocked)
           progression.HandleTeleportAnywhereUnlock();
@@ -551,6 +552,19 @@ namespace Bunject.NewYardSystem
           return AssetsManager.BunburrowsListOfStyles.Temple;
         case "Hell":
           return AssetsManager.BunburrowsListOfStyles.Hell;
+        case "PinkHell":
+          return AssetsManager.BunburrowsListOfStyles.PinkHell;
+        case "AquaticHell":
+        case "SunkenHell":
+          return AssetsManager.BunburrowsListOfStyles.AquaticHell;
+        case "HayHell":
+          return AssetsManager.BunburrowsListOfStyles.HayHell;
+        case "ForgottenHell":
+        case "PurpleHell":
+          return AssetsManager.BunburrowsListOfStyles.PurpleHell;
+        case "SpookyHell":
+        case "GhostlyHell":
+          return AssetsManager.BunburrowsListOfStyles.GhostlyHell;
         case "HellTemple":
           return AssetsManager.BunburrowsListOfStyles.HellTemple;
         case "Pink":

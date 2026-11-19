@@ -9,6 +9,7 @@ using HarmonyLib;
 using Levels;
 using Pause;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,7 @@ namespace Bunject.Archipelago.Client
   public class TrapHandler
   {
     private ArchipelagoClient client;
-    private readonly Queue<Trap> trapQueue = new();
+    private readonly ConcurrentQueue<Trap> trapQueue = new(); // socket thread writes, main thread reads
     private GameObject trapGameObject;
     private IModBunburrow modBunburrow;
     private IDataStorageHelper dataStorageHelper;
@@ -42,24 +43,31 @@ namespace Bunject.Archipelago.Client
 
     public void TrapRecieved(Trap trap)
     {
-      if (!enabled)
+      if (!enabled || client.GoalAchieved)
         return;
 
       trapQueue.Enqueue(trap);
 
       ArchipelagoConsole.LogMessage("Trap Recieved!");
-
-      if (trapGameObject == null)
-      {
-        trapGameObject = new GameObject();
-        var behavior = trapGameObject.AddComponent<TrapBehavior>();
-        behavior.TrapHandler = this;
-      }
     }
 
+    //Main thread only - GameObject creation throws from the socket thread
     public void Enable()
     {
+      trapGameObject = new GameObject();
+      UnityEngine.Object.DontDestroyOnLoad(trapGameObject);
+      trapGameObject.AddComponent<TrapBehavior>().TrapHandler = this;
+
       this.enabled = true;
+    }
+
+    public void Disable()
+    {
+      this.enabled = false;
+
+      if (trapGameObject != null)
+        UnityEngine.Object.Destroy(trapGameObject);
+      trapGameObject = null;
     }
 
 
@@ -71,10 +79,8 @@ namespace Bunject.Archipelago.Client
 
     public void ActivateTrap()
     {
-      if (trapQueue.Count > 0 && IsSafeToTrap())
+      if (!trapQueue.IsEmpty && !client.GoalAchieved && IsSafeToTrap() && trapQueue.TryDequeue(out var nextTrap))
       {
-        var nextTrap = trapQueue.Dequeue();
-
         switch (nextTrap)
         {
           case Trap.SurfaceTeleport:

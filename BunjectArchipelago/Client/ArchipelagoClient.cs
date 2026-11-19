@@ -70,7 +70,8 @@ namespace Bunject.Archipelago.Archipelago
 
         client.trapHandler = new TrapHandler(client, session.DataStorage);
 
-        client.deathLink = new DeathLinkHandler(session.CreateDeathLinkService(), userName, client.Options, client.trapHandler);
+        if (client.Options.death_link)
+          client.deathLink = new DeathLinkHandler(session.CreateDeathLinkService(), userName, client.Options, client.trapHandler);
 
         client.CheckForGoldenFluff(false);
 
@@ -247,6 +248,8 @@ namespace Bunject.Archipelago.Archipelago
 
         try
         {
+          trapHandler?.Disable();
+
           if (session != null)
           {
             session.Items.ItemReceived -= OnItemReceieved;

@@ -1,10 +1,10 @@
 {
     "name": "BNYS_mod",
-    "version_number": "1.3.0",
+    "version_number": "1.3.1",
     "website_url": "https://github.com/SergeAzel/Bunject",
     "description": "Permits the creation and addition of new Bunburrows. Built for Paquerette Down the Bunburrows v1.1.4.",
     "dependencies": [
         "BepInEx-BepInExPack-5.4.2100",
-        "BNYSmod-Bunject-1.3.0"
+        "BNYSmod-Bunject-1.3.1"
     ]
 }

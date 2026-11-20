@@ -35,7 +35,7 @@ namespace Bunject.Archipelago
 
     public const string PluginGUID = "sergedev.bunject.archipelago";
     public const string PluginName = "BunjectArchipelago";
-    public const string PluginVersion = "1.3.0";
+    public const string PluginVersion = "1.3.1";
 
     public static ManualLogSource BepinLogger;
 

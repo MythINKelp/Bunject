@@ -106,6 +106,7 @@ namespace Bunject.NewYardSystem.Model
   
   public class LevelDialogue
   {
+    public string Name { get; set; }
     public List<CustomDialogueLine> Lines { get; set; }
 
     public bool RequiresBunnyToPassBeforePlaying { get; set; }
@@ -121,10 +122,13 @@ namespace Bunject.NewYardSystem.Model
     public bool ShouldForceTurnPaqueretteAtStart { get; set; }
     public Misc.Direction ForceTurnPaqueretteDirection { get; set; }
 
+    public bool ShouldOnlyPlayOnce { get; set; }
+
     // Need this ugly workaround so CustomDialogueObjects can be instantiated properly
     public CustomDialogueObject ConvertToCustomDialogueObject()
     {
       CustomDialogueObject result = (CustomDialogueObject)ScriptableObject.CreateInstance(typeof(CustomDialogueObject));
+      result.name = "BNYS::" + this.Name;
       if (this.Lines != null)
       {
         result.DialogueLines = this.Lines.ConvertAll(line => (DialogueLine)line);
@@ -147,6 +151,7 @@ namespace Bunject.NewYardSystem.Model
       }
       result.ShouldForceTurnPaqueretteAtStart = this.ShouldForceTurnPaqueretteAtStart;
       result.ForceTurnPaqueretteDirection = this.ForceTurnPaqueretteDirection;
+      result.ShouldPlayOnlyOncePerSave = this.ShouldOnlyPlayOnce;
       return result;
     }
   }

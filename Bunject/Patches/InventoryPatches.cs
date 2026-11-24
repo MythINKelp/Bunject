@@ -15,7 +15,7 @@ namespace Bunject.Patches.InventoryPatches
   internal class HandleLevelResetPatch
   {
     // Put items from dialogues into Paquerette's inventory on level load
-    static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+    private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
     {
       int stage = 0;
       foreach (var instruction in instructions)
@@ -44,7 +44,7 @@ namespace Bunject.Patches.InventoryPatches
     }
 
     // Add tools to the player's inventory based on what dialogues were seen
-    static void GiveDialogueTools(Level level)
+    private static void GiveDialogueTools(Level level)
     {
       if (level.BaseData is ModLevelObject)
       {

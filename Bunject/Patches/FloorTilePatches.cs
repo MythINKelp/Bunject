@@ -44,6 +44,14 @@ namespace Bunject.Patches.FloorTilePatches
             break;
         }
         yield return instruction;
+
+        // For some reason Harmony changes how the method works if a leave instruction directly preceeds an exception block boundary
+        // This can be fixed by adding a nop after the leave instruction
+        // Without this fix the RequiresBunnyAtSpecificRelativePosition condition will not work
+        if (instruction.opcode == OpCodes.Leave || instruction.opcode == OpCodes.Leave_S)
+        {
+          yield return new CodeInstruction(OpCodes.Nop);
+        }
       }
     }
 
@@ -53,7 +61,7 @@ namespace Bunject.Patches.FloorTilePatches
       {
         return false;
       }
-
+      
       foreach (var line in dialogue.DialogueLines)
       {
         if (line is CustomDialogueLine)
